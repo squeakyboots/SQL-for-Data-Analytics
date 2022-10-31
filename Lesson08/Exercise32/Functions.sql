@@ -1,4 +1,4 @@
-DROP FUNCTION get_stock;
+-- DROP FUNCTION get_stock;
 CREATE FUNCTION get_stock(TEXT) RETURNS integer AS $stock_val$
 DECLARE stock_val integer;
 BEGIN
@@ -7,7 +7,7 @@ RETURN stock_val;
 END; $stock_val$
 LANGUAGE PLPGSQL;
 
-DROP FUNCTION update_stock;
+-- DROP FUNCTION update_stock;
 CREATE FUNCTION update_stock() RETURNS integer AS $stock_qty$
 DECLARE
     stock_qty integer;
@@ -23,7 +23,7 @@ RETURN stock_qty;
 END; $stock_qty$
 LANGUAGE PLPGSQL;
 
-DROP FUNCTION insert_order;
+-- DROP FUNCTION insert_order;
 CREATE FUNCTION insert_order(integer, TEXT, integer) RETURNS integer AS $new_order_id$
 DECLARE
    new_order_id integer;
