@@ -23,6 +23,18 @@ RETURN stock_qty;
 END; $stock_qty$
 LANGUAGE PLPGSQL;
 
+-- Modified update_stock per page 266
+DROP FUNCTION update_stock;
+CREATE FUNCTION update_stock() RETURNS TRIGGER AS $stock_trigger$
+DECLARE
+    stock_qty integer;
+BEGIN
+    stock_qty := get_stock(NEW.product_code) - NEW.qty;
+    UPDATE products SET stock = stock_qty WHERE product_code=NEW.product_code;
+RETURN NEW;
+END; $stock_trigger$
+LANGUAGE PLPGSQL;
+
 -- DROP FUNCTION insert_order;
 CREATE FUNCTION insert_order(integer, TEXT, integer) RETURNS integer AS $new_order_id$
 DECLARE
