@@ -1,5 +1,5 @@
 -- create detailed table
-DROP IF EXISTS TABLE detailed;
+DROP TABLE IF EXISTS detailed;
 CREATE TABLE detailed (payment_id integer,
 					  amount numeric(5, 2) NOT NULL,
 					  title character varying(255) NOT NULL,
@@ -8,7 +8,7 @@ CREATE TABLE detailed (payment_id integer,
 					  PRIMARY KEY (payment_id));
 
 -- create summary table
-DROP TABLE summary;
+DROP TABLE IF EXISTS summary;
 CREATE TABLE summary (film_rank integer,
 					 amount numeric(5, 2) NOT NULL,
 					 film_title character varying(255) NOT NULL,
@@ -33,8 +33,7 @@ FROM payment
 JOIN detailed USING(payment_id);
 
 -- function to perfrom transform from store_id to store name
-DROP OR REPLACE FUNCTION store_id_to_name;
-CREATE FUNCTION store_id_to_name(integer) RETURNS character varying(60) AS $store$
+CREATE OR REPLACE FUNCTION store_id_to_name(integer) RETURNS character varying(60) AS $store$
 DECLARE 
 	store character varying(60);
 BEGIN
@@ -70,8 +69,10 @@ END;$summary_trigger$
 LANGUAGE PLPGSQL;
 
 -- create summary table update trigger
-CREATE OR REPLACE TRIGGER update_summary_trigger AFTER INSERT ON detailed
-FOR EACH STATEMENT EXECUTE PROCEDURE update_summary();
+DROP TRIGGER IF EXISTS update_summary_trigger ON detailed;
+CREATE TRIGGER update_summary_trigger 
+	AFTER INSERT ON detailed
+	FOR EACH STATEMENT EXECUTE PROCEDURE update_summary();
 
 -- create a stored procedure that can be used to refresh the data in both tables
 CREATE OR REPLACE PROCEDURE refresh_data() AS $refresh_procedure$
@@ -94,5 +95,7 @@ LANGUAGE PLPGSQL;
 CALL refresh_data();
 
 -- to test things
+SELECT * FROM detailed;
+SELECT * FROM summary;
 INSERT INTO detailed VALUES (99999998,1.00,'Harry Idaho',1,'Lethbridge Store')
 INSERT INTO detailed VALUES (99999999,10.00,'Harry Idaho',1,'Lethbridge Store')
