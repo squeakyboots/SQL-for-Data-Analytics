@@ -88,7 +88,7 @@ ORDER BY film.film_id,inventory.store_id);
 END;$refresh_procedure$
 LANGUAGE PLPGSQL;
 
--- refresh the data
+-- refresh the data, recommended hourly
 CALL refresh_data();
 
 -- to test things
@@ -99,3 +99,5 @@ SELECT * FROM summary;
 INSERT INTO detailed VALUES (99999997,1.00,'Harry Idaho',1,'Lethbridge Store')
 INSERT INTO detailed VALUES (99999998,100.00,'Harry Idaho',1,'Lethbridge Store')
 INSERT INTO detailed VALUES (99999999,100.00,'Hustler Party',1,'Lethbridge Store')
+
+select version();
