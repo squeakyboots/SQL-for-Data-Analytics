@@ -1,3 +1,12 @@
+-- This report provided the top 10 films by dollars received for each store (A)
+-- Data used for the report includes the amount, film title, store that received payment, and store's city (A1)
+-- The report uses the payment, rental, inventory, film, store, address, and city tables (A2)
+-- The fields used from the original DB include payment.payment_id, payment.amount, film.title, inventory.store_id, and city.city (A3)
+-- The transformation done is to pull the store name (A4)
+-- The summary section can be used by the business to guide decisions on shelf placement and promotions. (A5)
+-- The detailed section can be used by the business to guide decisions on pricing and its relation to volume. (A5b cont'd)
+-- The report should be refreshed before shelves are rearranged or pricing and promotion decicions are made (A6)
+
 -- create detailed table (B)
 DROP TABLE IF EXISTS detailed;
 CREATE TABLE detailed (payment_id integer,
@@ -91,6 +100,8 @@ LANGUAGE PLPGSQL;
 -- refresh the data, recommended hourly
 CALL refresh_data();
 
+-- The refresh can be scheduled via psql and Windows Task Scheduler, or via pgAgent. (F1)
+
 -- to test things
 DROP TABLE detailed CASCADE;
 DROP TABLE summary CASCADE;
@@ -99,5 +110,3 @@ SELECT * FROM summary;
 INSERT INTO detailed VALUES (99999997,1.00,'Harry Idaho',1,'Lethbridge Store')
 INSERT INTO detailed VALUES (99999998,100.00,'Harry Idaho',1,'Lethbridge Store')
 INSERT INTO detailed VALUES (99999999,100.00,'Hustler Party',1,'Lethbridge Store')
-
-select version();
