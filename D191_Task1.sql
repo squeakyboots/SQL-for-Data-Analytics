@@ -5,7 +5,7 @@
 -- The transformation done is to pull the store name (A4)
 -- The summary section can be used by the business to guide decisions on shelf placement and promotions. (A5)
 -- The detailed section can be used by the business to guide decisions on pricing and its relation to volume. (A5b cont'd)
--- The report should be refreshed before shelves are rearranged or pricing and promotion decicions are made (A6)
+-- The report should be refreshed before shelves are rearranged or pricing and promotion decicions are made, assumed weekly (A6)
 
 -- create detailed table (B)
 DROP TABLE IF EXISTS detailed;
@@ -110,3 +110,4 @@ SELECT * FROM summary;
 INSERT INTO detailed VALUES (99999997,1.00,'Harry Idaho',1,'Lethbridge Store')
 INSERT INTO detailed VALUES (99999998,100.00,'Harry Idaho',1,'Lethbridge Store')
 INSERT INTO detailed VALUES (99999999,100.00,'Hustler Party',1,'Lethbridge Store')
+
