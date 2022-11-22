@@ -33,7 +33,10 @@ JOIN film USING(film_id)
 ORDER BY film.film_id,inventory.store_id);
 
 -- verify accuracy of the data by putting the tables side by side and looking at amount (C cont'd)
-SELECT * FROM payment
+SELECT payment.amount,film.title,inventory.store_id,detailed.amount,detailed.title,detailed.store_id FROM payment
+JOIN rental USING(rental_id)
+JOIN inventory USING(inventory_id)
+JOIN film USING(film_id)
 JOIN detailed USING(payment_id);
 -- verify accuracy of the data by summing the totals of each table and counting the rows of each talbe and comparing (C cont'd)
 SELECT SUM(payment.amount) AS payment_table_amount,SUM(detailed.amount) AS detailed_table_amount,
@@ -97,7 +100,7 @@ ORDER BY film.film_id,inventory.store_id);
 END;$refresh_procedure$
 LANGUAGE PLPGSQL;
 
--- refresh the data, recommended hourly
+-- refresh the data, recommended weekly
 CALL refresh_data();
 
 -- The refresh can be scheduled via psql and Windows Task Scheduler, or via pgAgent. (F1)
@@ -107,7 +110,6 @@ DROP TABLE detailed CASCADE;
 DROP TABLE summary CASCADE;
 SELECT * FROM detailed;
 SELECT * FROM summary;
-INSERT INTO detailed VALUES (99999997,1.00,'Harry Idaho',1,'Lethbridge Store')
-INSERT INTO detailed VALUES (99999998,100.00,'Harry Idaho',1,'Lethbridge Store')
-INSERT INTO detailed VALUES (99999999,100.00,'Hustler Party',1,'Lethbridge Store')
-
+INSERT INTO detailed VALUES (99999997,1.00,'Harry Idaho',1,'Lethbridge Store');
+INSERT INTO detailed VALUES (99999998,100.00,'Harry Idaho',1,'Lethbridge Store');
+INSERT INTO detailed VALUES (99999999,100.00,'Hustler Party',1,'Lethbridge Store');
